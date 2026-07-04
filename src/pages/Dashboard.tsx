@@ -488,73 +488,6 @@ function QueueTable() {
   );
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// HEADER EXTENSION (notifications badge)
-// ─────────────────────────────────────────────────────────────────────────────
-
-function NotificationsBell({ count }: { count: number }) {
-  return (
-    <div className="relative">
-      <button
-        aria-label={`${count} alertes critiques non lues`}
-        style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#64748b', display: 'flex', alignItems: 'center' }}
-      >
-        <Bell size={18} />
-      </button>
-      {count > 0 && (
-        <span
-          className="absolute flex items-center justify-center"
-          style={{
-            top: '-4px', right: '-4px',
-            width: '16px', height: '16px',
-            borderRadius: '50%',
-            backgroundColor: '#F43F5E',
-            fontSize: '9px',
-            fontWeight: 700,
-            color: '#fff',
-            border: '2px solid #0F1628',
-          }}
-          aria-hidden="true"
-        >
-          {count}
-        </span>
-      )}
-    </div>
-  );
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// WEBSOCKET STATUS (affichage dans la page pour démo)
-// ─────────────────────────────────────────────────────────────────────────────
-
-function WsStatus() {
-  const [connected, setConnected] = useState(true);
-  useEffect(() => {
-    // Simule une reconnexion après 3s si déconnecté
-    if (!connected) {
-      const t = setTimeout(() => setConnected(true), 3000);
-      return () => clearTimeout(t);
-    }
-  }, [connected]);
-
-  return (
-    <div
-      className="flex items-center gap-2 px-3 py-1.5 rounded-full"
-      style={{
-        backgroundColor: connected ? 'rgba(16,185,129,0.1)' : 'rgba(244,63,94,0.1)',
-        border: `1px solid ${connected ? 'rgba(16,185,129,0.25)' : 'rgba(244,63,94,0.25)'}`,
-        cursor: 'pointer',
-      }}
-      onClick={() => connected && setConnected(false)}
-      title="Cliquer pour simuler une déconnexion"
-    >
-      {connected
-        ? <><Wifi size={13} color="#10B981" /><span style={{ fontSize: '11px', fontWeight: 700, color: '#10B981', letterSpacing: '0.05em' }}>LIVE</span></>
-        : <><Wifi size={13} color="#F43F5E" /><span style={{ fontSize: '11px', fontWeight: 700, color: '#F43F5E', letterSpacing: '0.05em' }}>RECONNEXION...</span></>
-      }
-    </div>
-  );
-}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // PAGE EXPORT
@@ -565,15 +498,7 @@ export default function Dashboard() {
   const now = new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
 
   return (
-    <AdminShell
-      orgName="Banque de la République — Siège"
-      headerExtra={
-        <div className="flex items-center gap-3">
-          <WsStatus />
-          <NotificationsBell count={criticalCount} />
-        </div>
-      }
-    >
+    <AdminShell criticalAlerts={criticalCount}>
       <div style={{ padding: '24px', fontFamily: 'Inter, sans-serif' }}>
 
         {/* Page title */}
