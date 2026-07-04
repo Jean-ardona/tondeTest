@@ -6,8 +6,8 @@ import {
   Tooltip as RechartsTooltip, ResponsiveContainer, ReferenceLine,
 } from 'recharts';
 import {
-  Bell, AlertTriangle, Clock, Users, TrendingDown,
-  BarChart2, Wifi, ChevronRight, Pause, Circle,
+  AlertTriangle, Clock, Users, TrendingDown,
+  BarChart2, ChevronRight, Pause, Circle,
 } from 'lucide-react';
 import AdminShell from '../layouts/AdminShell';
 

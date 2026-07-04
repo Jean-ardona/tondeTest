@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, type ReactNode } from 'react';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard, ListOrdered, MapPin, Users, BarChart3,
   Settings, LogOut, ChevronDown, ChevronRight, Menu, X,
@@ -48,15 +48,6 @@ const roleConfig: Record<UserRole, { label: string; color: string; bg: string }>
   ADMIN_ORG:  { label: 'ADMIN_ORG',  color: '#6C47FF', bg: 'rgba(108,71,255,0.15)' },
   SUPERVISOR: { label: 'SUPERVISOR', color: '#06B6D4', bg: 'rgba(6,182,212,0.15)'  },
   AGENT:      { label: 'AGENT',      color: '#10B981', bg: 'rgba(16,185,129,0.15)' },
-};
-
-const breadcrumbLabels: Record<string, { FR: string; EN: string; RN: string; SW: string }> = {
-  '/dashboard': { FR: 'Aperçu',        EN: 'Overview',  RN: 'Incamake',      SW: 'Muhtasari'  },
-  '/queue':     { FR: "Files d'attente",EN: 'Queues',    RN: 'Imirongo',      SW: 'Foleni'     },
-  '/locations': { FR: 'Agences',        EN: 'Locations', RN: 'Amashami',      SW: 'Matawi'     },
-  '/agents':    { FR: 'Agents',         EN: 'Agents',    RN: 'Abakozi',       SW: 'Mawakala'   },
-  '/analytics': { FR: 'Statistiques',   EN: 'Analytics', RN: 'Imibare',       SW: 'Takwimu'    },
-  '/settings':  { FR: 'Paramètres',     EN: 'Settings',  RN: 'Igenamiterere', SW: 'Mipangilio' },
 };
 
 const logoutLabel:    Record<Language, string> = { FR: 'Déconnexion',   EN: 'Sign out',      RN: 'Gusohoka',      SW: 'Toka'       };
@@ -122,7 +113,7 @@ const mockNotifications = [
 
 const notifColor: Record<string, string> = { critical: '#F43F5E', warning: '#F59E0B', info: '#06B6D4' };
 
-function NotificationsBell({ count }: { count: number }) {
+function NotificationsBell({ count: _count }: { count: number }) {
   const [open, setOpen] = useState(false);
   const [read, setRead] = useState<number[]>([]);
   const ref = useRef<HTMLDivElement>(null);
@@ -521,25 +512,6 @@ function ProfileMenu({ lang, onLogout }: { lang: Language; onLogout: () => void 
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// BREADCRUMBS
-// ─────────────────────────────────────────────────────────────────────────────
-
-function Breadcrumbs({ lang, agencyName }: { lang: Language; agencyName: string }) {
-  const { pathname } = useLocation();
-  const pageName = breadcrumbLabels[pathname]?.[lang] ?? pathname;
-
-  return (
-    <nav aria-label="Fil d'Ariane" className="hidden md:flex items-center gap-1.5">
-      <span style={{ fontSize: '12px', color: '#475569' }}>TONDE</span>
-      <ChevronRight size={11} color="#334155" />
-      <span className="truncate" style={{ fontSize: '12px', color: '#475569', maxWidth: '160px' }}>{agencyName}</span>
-      <ChevronRight size={11} color="#334155" />
-      <span style={{ fontSize: '12px', color: '#94a3b8', fontWeight: 500 }}>{pageName}</span>
-    </nav>
-  );
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
 // MAIN SHELL
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -547,7 +519,6 @@ export default function AdminShell({ children, criticalAlerts = 2 }: AdminShellP
   const navigate = useNavigate();
   const [lang, setLang] = useState<Language>('FR');
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const currentAgency = agencies[0];
 
   const handleLogout = () => navigate('/login');
 
