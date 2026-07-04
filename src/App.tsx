@@ -5,6 +5,7 @@ import './css/style.css';
 
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
+import Queue from './pages/Queue';
 
 // Placeholder pages pour les routes à venir
 import AdminShell from './layouts/AdminShell';
@@ -40,7 +41,7 @@ function App() {
     <Routes>
       <Route path="/login"     element={<Login />} />
       <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/queue"     element={<Placeholder title="Gestion des Files" />} />
+      <Route path="/queue"     element={<Queue />} />
       <Route path="/locations" element={<Placeholder title="Agences / Lieux" />} />
       <Route path="/agents"    element={<Placeholder title="Agents" />} />
       <Route path="/analytics" element={<Placeholder title="Statistiques" />} />
